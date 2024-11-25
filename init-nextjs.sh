@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the directory where the script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &>/dev/null && pwd)"
 
 # Source all utility functions and configurations
 source "$SCRIPT_DIR/utils/logging.sh"
@@ -51,6 +51,9 @@ main() {
 
     # Generate project files
     generate_project_files "$ui_library"
+
+    # Git commit
+    git add . && git commit -m "Project initialization"
 
     log_success "Project setup completed successfully!"
 }

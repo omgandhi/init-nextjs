@@ -23,6 +23,14 @@ install_dependencies() {
         fi
     fi
 
+    if [ "$ui_library" == "tailwind" ]; then
+            log_info "Installing shadcn..."
+            if ! pnpm dlx shadcn@latest init -d; then
+                log_error "Failed to install shadcn"
+                exit 1
+            fi
+        fi
+
     # Update package.json scripts
     local temp_file
     temp_file=$(mktemp)

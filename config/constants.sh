@@ -14,8 +14,7 @@ export COMMON_DEV_DEPENDENCIES=(
 export CHAKRA_DEPENDENCIES=(
     "@chakra-ui/react"
     "@emotion/react"
-    "@emotion/styled"
-    "framer-motion"
+    "@chakra-ui/cli"
 )
 
 export PACKAGE_JSON_SCRIPTS='{
