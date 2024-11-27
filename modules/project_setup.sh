@@ -19,7 +19,6 @@ setup_project() {
     # Create necessary directories
     mkdir -p "$project_name/$COMPONENTS_DIR"
     mkdir -p "$project_name/$COMPONENTS_PAGES_DIR"
-    mkdir -p "$project_name/$COMPONENTS_UTILS_DIR"
 
     log_success "Project structure created successfully"
 }

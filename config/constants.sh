@@ -2,7 +2,6 @@
 
 export COMPONENTS_DIR="components"
 export COMPONENTS_PAGES_DIR="components/pages"
-export COMPONENTS_UTILS_DIR="components/utils"
 export APP_DIR="app"
 
 export COMMON_DEV_DEPENDENCIES=(
