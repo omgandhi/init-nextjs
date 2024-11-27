@@ -246,7 +246,6 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import {Provider} from "@/components/ui/Provider";
-import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
