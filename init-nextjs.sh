@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &>/dev/null &
 # Source all utility functions and configurations
 source "$SCRIPT_DIR/utils/logging.sh"
 source "$SCRIPT_DIR/utils/validation.sh"
+source "$SCRIPT_DIR/utils/file_naming.sh"
 source "$SCRIPT_DIR/config/constants.sh"
 source "$SCRIPT_DIR/modules/project_setup.sh"
 source "$SCRIPT_DIR/modules/package_manager.sh"
@@ -51,6 +52,9 @@ main() {
 
     # Generate project files
     generate_project_files "$ui_library"
+
+    # Rename UI component files
+    rename_ui_components
 
     # Git commit
     git add . && git commit -m "Project initialization"

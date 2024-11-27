@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$SCRIPT_DIR/utils/file_naming.sh"
-
 generate_project_files() {
     local ui_library=$1
 
@@ -13,7 +11,6 @@ generate_project_files() {
     # Generate other files based on UI library choice
     if [ "$ui_library" == "chakra" ]; then
         generate_chakra_files
-        rename_ui_components
     else
         generate_tailwind_files
     fi

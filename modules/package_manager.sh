@@ -30,12 +30,18 @@ install_dependencies() {
     fi
 
     if [ "$ui_library" == "tailwind" ]; then
-            log_info "Installing shadcn..."
-            if ! pnpm dlx shadcn@latest init -d; then
-                log_error "Failed to install shadcn"
-                exit 1
-            fi
+        log_info "Installing shadcn..."
+        if ! pnpm dlx shadcn@latest init -d; then
+            log_error "Failed to install shadcn"
+            exit 1
         fi
+
+        log_info "Adding shadcn components..."
+        if ! npx shadcn@latest add button input label card separator toast select checkbox switch; then
+            log_error "Failed to add Chakra UI snippets"
+            exit 1
+        fi
+    fi
 
     # Update package.json scripts
     local temp_file
