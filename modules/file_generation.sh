@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$SCRIPT_DIR/utils/file_naming.sh"
+
 generate_project_files() {
     local ui_library=$1
 

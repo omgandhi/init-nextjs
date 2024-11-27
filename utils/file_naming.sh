@@ -1,20 +1,38 @@
-#!/bin/bash
-
 convert_to_pascal_case() {
-    local filename=$1
-    echo "$filename" | sed -E 's/(^|-)([a-z])/\U\2/g'
+    local input=$1
+    local result=""
+    local capitalize=1
+
+    # Process one character at a time
+    for (( i=0; i<${#input}; i++ )); do
+        local char="${input:$i:1}"
+
+        if [ "$char" = "-" ]; then
+            capitalize=1
+            continue
+        fi
+
+        if [ $capitalize -eq 1 ]; then
+            result+=$(echo "$char" | tr '[:lower:]' '[:upper:]')
+            capitalize=0
+        else
+            result+="$char"
+        fi
+    done
+
+    echo "$result"
 }
 
 rename_ui_components() {
-    local ui_dir="components/ui"
+    local ui_dir="$COMPONENTS_DIR/ui"
 
     # Check if directory exists
     if [ ! -d "$ui_dir" ]; then
         return
-    }
+    fi
 
-    # Find all files in components/ui and rename them
-    find "$ui_dir" -type f -name "*-*.ts*" | while read -r file; do
+    # Process all TypeScript/TSX files
+    find "$ui_dir" -type f -name "*.ts*" | while read -r file; do
         local dir=$(dirname "$file")
         local base=$(basename "$file")
         local name_without_ext="${base%.*}"
@@ -24,10 +42,10 @@ rename_ui_components() {
         local pascal_name="$(convert_to_pascal_case "$name_without_ext").$ext"
         local new_path="$dir/$pascal_name"
 
-        # Rename the file
-        mv "$file" "$new_path"
-
-        # Log the change
-        log_info "Renamed: $base → $pascal_name"
+        # Only rename if the file actually needs renaming
+        if [ "$base" != "$pascal_name" ]; then
+            mv "$file" "$new_path"
+            log_info "Renamed: $base → $pascal_name"
+        fi
     done
 }
