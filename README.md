@@ -2,12 +2,6 @@
 
 A collection of bash scripts that automate the setup of a NextJS project with either Tailwind CSS or Chakra UI. These scripts provide a standardized project structure with pre-configured ESLint, Prettier, and TypeScript settings.
 
-## Requirements
-
-- Node.js >= 18.17.0 (Next.js 14 requirement)
-- pnpm >= 8.0.0
-- bash shell
-
 ## Package Versions
 
 The scripts will install the following packages with their latest compatible versions:
@@ -15,19 +9,18 @@ The scripts will install the following packages with their latest compatible ver
 ### Development Dependencies
 ```json
 {
-  "prettier": "^3.0.0",
-  "concurrently": "^8.0.0",
-  "react-icons": "^4.0.0"
+  "concurrently": "^9.1.0",
+  "prettier": "^3.4.1",
+  "react-icons": "^5.3.0"
 }
 ```
 
 ### Chakra UI Dependencies (if selected)
 ```json
 {
-  "@chakra-ui/react": "^2.8.0",
-  "@emotion/react": "^11.0.0",
-  "@emotion/styled": "^11.0.0",
-  "framer-motion": "^10.0.0"
+  "@chakra-ui/cli": "^3.2.1",
+  "@chakra-ui/react": "^3.2.1",
+  "@emotion/react": "^11.13.5"
 }
 ```
 
