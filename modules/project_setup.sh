@@ -9,7 +9,7 @@ setup_project() {
 
     log_info "Creating Next.js project: $project_name"
 
-    create_next_app_command="npx create-next-app@latest \"$project_name\" --typescript --empty --use-pnpm --eslint --no-src-dir --app $tailwind_flag --turbopack --import-alias <@/*>"
+    create_next_app_command="npx create-next-app@latest \"$project_name\" --typescript --empty --use-pnpm --eslint --no-src-dir --app $tailwind_flag --turbopack --yes"
 
     if ! eval "$create_next_app_command"; then
         log_error "Failed to create Next.js project"
