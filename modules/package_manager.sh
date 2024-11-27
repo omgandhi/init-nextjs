@@ -21,6 +21,12 @@ install_dependencies() {
             log_error "Failed to install Chakra UI dependencies"
             exit 1
         fi
+
+        log_info "Adding Chakra UI snippets..."
+        if ! npx @chakra-ui/cli snippet add; then
+            log_error "Failed to add Chakra UI snippets"
+            exit 1
+        fi
     fi
 
     if [ "$ui_library" == "tailwind" ]; then

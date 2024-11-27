@@ -11,6 +11,7 @@ generate_project_files() {
     # Generate other files based on UI library choice
     if [ "$ui_library" == "chakra" ]; then
         generate_chakra_files
+        rename_ui_components
     else
         generate_tailwind_files
     fi
@@ -33,49 +34,12 @@ generate_project_files() {
 }
 
 generate_chakra_files() {
-    # Create Providers.tsx
-    cat > "$COMPONENTS_UTILS_DIR/Providers.tsx" << 'EOT'
-import { ReactNode, Suspense } from 'react';
-
-import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
-
-import Loading from '@/app/loading';
-
-export const system = createSystem(defaultConfig, {
-  theme: {
-    tokens: {
-      fontWeights: {
-        normal: { value: 400 },
-        medium: { value: 500 },
-        bold: { value: 700 },
-      },
-    },
-  },
-});
-
-interface ProvidersProps {
-  children: ReactNode;
-}
-
-function ProvidersContent({ children }: ProvidersProps) {
-  return <ChakraProvider value={system}>{children}</ChakraProvider>;
-}
-
-export function Providers({ children }: ProvidersProps) {
-  return (
-    <Suspense fallback={<Loading />}>
-      <ProvidersContent>{children}</ProvidersContent>
-    </Suspense>
-  );
-}
-EOT
-
     # Create layout.tsx for Chakra
     cat > "$APP_DIR/layout.tsx" << 'EOT'
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { Inter } from "next/font/google";
-import { Providers } from '@/components/utils/Providers';
+import {Provider} from "@/components/ui/Provider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -93,9 +57,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
+        <Provider>
           {children}
-        </Providers>
+        </Provider>
       </body>
     </html>
   );
@@ -182,6 +146,15 @@ export const NotFound = () => {
     </Box>
   );
 };
+EOT
+
+    # Create page.tsx
+    cat > "$APP_DIR/page.tsx" << 'EOT'
+import {Box} from "@chakra-ui/react";
+
+export default function Home() {
+  return <Box>Hello World!</Box>;
+}
 EOT
 }
 
@@ -283,24 +256,6 @@ export const NotFound = () => {
   );
 };
 EOT
-}
-
-generate_common_files() {
-    # Create not-found.tsx
-    cat > "$APP_DIR/not-found.tsx" << 'EOT'
-import { NotFound } from '@/components/pages/NotFound';
-
-export default function NotFoundPage() {
-  return <NotFound />;
-}
-EOT
-
-    # Create page.tsx
-    cat > "$APP_DIR/page.tsx" << 'EOT'
-export default function Home() {
-  return <div>Hello World</div>;
-}
-EOT
 
     # Create globals.css
     cat > "$APP_DIR/globals.css" << 'EOT'
@@ -308,20 +263,63 @@ EOT
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Modern scrollbar styling */
+@layer base {
+    ::-webkit-scrollbar {
+        width: 14px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 dark:bg-gray-600 border-4 border-solid border-transparent bg-clip-padding rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-400 dark:bg-gray-500;
+    }
+
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.300') transparent;
+    }
+
+    .dark * {
+        scrollbar-color: theme('colors.gray.600') transparent;
+    }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
+/* Better text rendering */
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        @apply overflow-y-scroll;
+    }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Focus styles */
+@layer base {
+    *:focus-visible {
+        @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    }
+}
+
+/* Text selection */
+@layer base {
+    ::selection {
+        @apply bg-blue-500 text-white;
+    }
+}
+
+/* Dark mode transitions */
+@layer base {
+    * {
+        @apply transition-colors duration-200;
+    }
 }
 EOT
 
@@ -334,5 +332,27 @@ export default {
   theme: {},
   plugins: [],
 } satisfies Config;
+EOT
+
+    # Create page.tsx
+    cat > "$APP_DIR/page.tsx" << 'EOT'
+export default function Home() {
+  return (
+    <main>
+      <div>Hello world!</div>
+    </main>
+  );
+}
+EOT
+}
+
+generate_common_files() {
+    # Create not-found.tsx
+    cat > "$APP_DIR/not-found.tsx" << 'EOT'
+import { NotFound } from '@/components/pages/NotFound';
+
+export default function NotFoundPage() {
+  return <NotFound />;
+}
 EOT
 }

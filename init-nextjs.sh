@@ -44,7 +44,7 @@ main() {
     validate_project_name "$project_name" || exit 1
 
     # Initialize project structure
-    setup_project "$project_name"
+    setup_project "$project_name" "$ui_library"
 
     # Install dependencies
     install_dependencies "$project_name" "$ui_library"
