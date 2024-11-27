@@ -322,7 +322,7 @@ EOT
     cat > "$COMPONENTS_PAGES_DIR/NotFound.tsx" << 'EOT'
 'use client';
 
-import { Box, Button, Center, Heading, Text, VStack } from '@chakra-ui/react';
+import {Box, Button, Center, Flex, Heading, Icon, Link, Text, VStack} from '@chakra-ui/react';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 export const NotFound = () => {
@@ -330,22 +330,28 @@ export const NotFound = () => {
     <Box w="100%" h="80vh" p={10}>
       <Center flexDir="column" h="100%">
         <VStack
-          spacing={6}
+          gap={6}
           padding={8}
           backgroundColor="white"
           borderRadius="lg"
           boxShadow="2xl"
         >
-          <Box as={FaExclamationTriangle} size="50px" color="red.500" />
-          <Heading as="h2" size="xl" color="gray.700">
-            Page Not Found
-          </Heading>
-          <Text fontSize="lg" color="gray.500">
-            Could not find the requested resource.
-          </Text>
-          <Button as="a" href="/" size="lg" aria-label="Return Home">
-            Return Home
-          </Button>
+          <Icon fontSize="3xl" color="red.500">
+            <FaExclamationTriangle />
+          </Icon>
+          <Flex direction="column" textAlign="center" gap={1}>
+            <Heading as="h2" size="xl" color="gray.700">
+              Page Not Found
+            </Heading>
+            <Text fontSize="lg" color="gray.500">
+              Could not find the requested resource.
+            </Text>
+          </Flex>
+          <Link href="/">
+            <Button size="lg" aria-label="Return Home">
+              Return Home
+            </Button>
+          </Link>
         </VStack>
       </Center>
     </Box>
