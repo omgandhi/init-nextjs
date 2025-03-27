@@ -32,10 +32,6 @@ func Setup(projectName string) error {
 		return fmt.Errorf("failed to create ESLint config: %w", err)
 	}
 
-	if err := templates.UpdateTailwindConfig("."); err != nil {
-		return fmt.Errorf("failed to update tailwind config: %w", err)
-	}
-
 	if err := templates.UpdateGitignore(); err != nil {
 		return fmt.Errorf("failed to update gitignore: %w", err)
 	}
@@ -80,7 +76,7 @@ func setupShadcn() error {
 }
 
 func installPackages() error {
-	cmd := exec.Command("pnpm", "install", "-D", "prettier", "concurrently", "prettier-plugin-tailwindcss")
+	cmd := exec.Command("pnpm", "install", "-D", "prettier", "concurrently", "prettier-plugin-tailwindcss", "@eslint/js")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 

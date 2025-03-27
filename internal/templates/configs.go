@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 )
 
 const ESLintConfig = `import path from "node:path";
@@ -45,21 +44,6 @@ export default [...compat.extends("next/core-web-vitals"), {
 
 func CreateESLintConfig(projectPath string) error {
 	return os.WriteFile(filepath.Join(projectPath, "eslint.config.mjs"), []byte(ESLintConfig), 0644)
-}
-
-func UpdateTailwindConfig(projectPath string) error {
-	configPath := filepath.Join(projectPath, "tailwind.config.ts")
-	content, err := os.ReadFile(configPath)
-	if err != nil {
-		return err
-	}
-
-	contentPattern := regexp.MustCompile(`content:\s*\[([^\]]*)\]`)
-	newContent := `content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./lib/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}"]`
-
-	updatedConfig := contentPattern.ReplaceAllString(string(content), newContent)
-
-	return os.WriteFile(configPath, []byte(updatedConfig), 0644)
 }
 
 func UpdateGitignore() error {
