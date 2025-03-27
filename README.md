@@ -24,8 +24,9 @@ Windows:
 
 macOS/Linux:
 ```bash
-# Move to /usr/local/bin (requires sudo)
-sudo mv init-nextjs /usr/local/bin/
+# Move to /opt/homebrew/bin/ (requires sudo)
+# Use /usr/local/bin for Intel macs
+sudo mv init-nextjs /opt/homebrew/bin/
 ```
 
 ## Usage
